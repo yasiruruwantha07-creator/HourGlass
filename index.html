@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HourGlass Planner</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <h1>⏳ HourGlass</h1>
+      <p>Your all-in-one productivity companion.</p>
+      <nav>
+        <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+        <button class="nav-btn" data-view="focus">Focus Sessions</button>
+        <button class="nav-btn" data-view="planning">Planning</button>
+        <button class="nav-btn" data-view="notes">Notes & Journal</button>
+        <button class="nav-btn" data-view="stats">Profile & Stats</button>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section id="dashboard" class="view active">
+        <div class="grid two">
+          <article class="card">
+            <h2>Task Checklist</h2>
+            <form id="task-form" class="row-wrap">
+              <input id="task-title" type="text" placeholder="Add a task" required />
+              <select id="task-priority">
+                <option>High</option>
+                <option selected>Medium</option>
+                <option>Low</option>
+              </select>
+              <input id="task-deadline" type="date" />
+              <button type="submit">Add Task</button>
+            </form>
+            <div id="priority-alert" class="notice">No pending tasks.</div>
+            <div id="deadline-alerts"></div>
+            <ul id="task-list" class="list"></ul>
+          </article>
+
+          <article class="card">
+            <h2>AI Task Breakdown</h2>
+            <p>Describe a big goal and get actionable steps.</p>
+            <textarea id="goal-input" rows="4" placeholder="e.g. Prepare for physics finals in 3 weeks"></textarea>
+            <button id="breakdown-btn">Generate Breakdown</button>
+            <ul id="breakdown-list" class="list compact"></ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="focus" class="view">
+        <div class="grid two">
+          <article class="card">
+            <h2>Focus Timer</h2>
+            <form id="focus-form" class="row-wrap">
+              <input id="focus-name" type="text" placeholder="Session name" />
+              <select id="focus-task-link"></select>
+              <input id="focus-minutes" type="number" min="1" value="25" />
+              <button type="submit">Start</button>
+            </form>
+            <div id="focus-display" class="timer">25:00</div>
+            <div class="row-wrap">
+              <button id="pause-focus" class="secondary">Pause/Resume</button>
+              <button id="stop-focus" class="danger">Stop</button>
+            </div>
+            <p id="focus-status" class="muted">No active session.</p>
+          </article>
+
+          <article class="card">
+            <h2>Music & Spotify</h2>
+            <div class="row-wrap">
+              <input id="audio-url" type="url" placeholder="Paste audio URL" />
+              <button id="load-audio">Load URL</button>
+            </div>
+            <input id="audio-file" type="file" accept="audio/*" />
+            <audio id="audio-player" controls></audio>
+            <label>Spotify playlist embed URL
+              <input id="spotify-url" type="url" placeholder="https://open.spotify.com/embed/playlist/..." />
+            </label>
+            <button id="set-spotify">Set Spotify Embed</button>
+            <iframe id="spotify-frame" title="Spotify" loading="lazy"></iframe>
+          </article>
+        </div>
+      </section>
+
+      <section id="planning" class="view">
+        <div class="grid two">
+          <article class="card">
+            <h2>Exam Countdown</h2>
+            <div class="row-wrap">
+              <input id="exam-name" type="text" placeholder="Exam name" />
+              <input id="exam-date" type="datetime-local" />
+              <button id="save-exam">Save</button>
+            </div>
+            <div id="exam-countdown" class="notice">No exam set.</div>
+          </article>
+
+          <article class="card">
+            <h2>Weekly Schedule</h2>
+            <form id="schedule-form" class="row-wrap">
+              <input id="sched-title" type="text" placeholder="Event" required />
+              <select id="sched-day"><option>Mon</option><option>Tue</option><option>Wed</option><option>Thu</option><option>Fri</option><option>Sat</option><option>Sun</option></select>
+              <input id="sched-time" type="time" required />
+              <input id="sched-color" type="color" value="#4a69ff" />
+              <label><input id="sched-repeat" type="checkbox" /> Repeat weekly</label>
+              <button type="submit">Add</button>
+            </form>
+            <ul id="schedule-list" class="list compact"></ul>
+          </article>
+        </div>
+
+        <article class="card">
+          <h2>Subject Planners</h2>
+          <div id="subjects" class="subject-grid"></div>
+        </article>
+      </section>
+
+      <section id="notes" class="view">
+        <div class="grid two">
+          <article class="card">
+            <h2>Daily Notes</h2>
+            <div class="toolbar">
+              <button data-cmd="bold">Bold</button>
+              <button data-cmd="italic">Italic</button>
+              <button data-cmd="insertUnorderedList">List</button>
+            </div>
+            <div id="notes-editor" contenteditable="true" class="editor"></div>
+            <button id="save-notes">Save Notes</button>
+          </article>
+
+          <article class="card">
+            <h2>AI-Powered Journal</h2>
+            <p>Generate a positive journal entry from your progress.</p>
+            <button id="generate-journal">Generate Entry</button>
+            <textarea id="journal-output" rows="10"></textarea>
+          </article>
+        </div>
+      </section>
+
+      <section id="stats" class="view">
+        <div class="grid three">
+          <article class="card">
+            <h2>Profile</h2>
+            <p id="profile-level"></p>
+            <p id="profile-xp"></p>
+            <div class="progress"><div id="xp-progress"></div></div>
+          </article>
+          <article class="card">
+            <h2>Achievements</h2>
+            <ul id="achievements" class="list compact"></ul>
+          </article>
+          <article class="card">
+            <h2>Leaderboard</h2>
+            <ol id="leaderboard"></ol>
+          </article>
+        </div>
+        <article class="card">
+          <h2>Statistics</h2>
+          <div id="stats-summary"></div>
+          <div id="hours-chart" class="chart"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="daily-log-modal">
+    <form method="dialog" id="daily-log-form">
+      <h3>Daily Log</h3>
+      <p>How many study hours did you complete yesterday?</p>
+      <input id="daily-hours" type="number" min="0" step="0.5" required />
+      <menu>
+        <button value="cancel">Skip</button>
+        <button id="save-daily-log" value="default">Save</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
